@@ -61,9 +61,9 @@ public class RowActionBase {
     //
     RowActionBase            next;
     Session                  session;
-    long                     actionTimestamp;
-    long                     commitTimestamp;
-    byte                     type;
+    long                     actionTimestamp; // sql执行完成时刻
+    long                     commitTimestamp; // 提交或回滚时刻
+    byte                     type;  // 操作类型
     boolean                  deleteComplete;
     boolean                  rolledback;
     boolean                  prepared;

@@ -76,7 +76,7 @@ public class QuerySpecification extends QueryExpression {
     public boolean        isGrouped;
     public boolean        isOrderSensitive;
     public boolean        isSimpleDistinct;
-    RangeVariable[]       rangeVariables;
+    RangeVariable[]       rangeVariables;  // from
     private HsqlArrayList rangeVariableList;
     int                   startInnerRange = -1;
     int                   endInnerRange   = -1;
@@ -84,7 +84,7 @@ public class QuerySpecification extends QueryExpression {
     Expression            checkQueryCondition;
     private Expression    havingCondition;
     Expression            rowExpression;
-    Expression[]          exprColumns;
+    Expression[]          exprColumns; // selected column
     HsqlArrayList         exprColumnList;
     private int           groupByColumnCount;    // columns in 'group by'
     private int           havingColumnCount;     // columns in 'having' (0 or 1)

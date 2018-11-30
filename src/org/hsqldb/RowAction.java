@@ -137,16 +137,16 @@ public class RowAction extends RowActionBase {
             RowActionBase action = this;
 
             while (true) {
+                // 跳过被回滚的 action
                 if (action.rolledback) {
                     if (action.next == null) {
                         break;
                     }
-
                     action = action.next;
-
                     continue;
                 }
 
+                // 解决并发，有并发问题就退出，是同一个 session 的 delete 就跳过
                 switch (action.type) {
 
                     case ACTION_INSERT : {
@@ -590,6 +590,8 @@ public class RowAction extends RowActionBase {
 
     /**
      * Rollback actions for a session including and after the given timestamp
+     *
+     * 将操作标记为回滚，设置回滚时间
      */
     synchronized void rollback(Session session, long timestamp) {
 

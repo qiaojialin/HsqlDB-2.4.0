@@ -46,6 +46,8 @@ import org.hsqldb.persist.RowStoreAVLDiskData;
  * Implementation of rows for tables with memory resident indexes and
  * disk-based data, such as TEXT tables.
  *
+ * TextTable 中的一行数据，包含一个 AVL 节点信息
+ *
  * @author Bob Preston (sqlbob@users dot sourceforge.net)
  * @author Fred Toussi (fredt@users dot sourceforge.net)
  * @version 2.3.4

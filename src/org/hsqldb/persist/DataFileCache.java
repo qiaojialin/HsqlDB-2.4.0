@@ -1015,6 +1015,7 @@ public class DataFileCache {  // Reader && Writer for .data
         return getFromFile(pos, store, keep);
     }
 
+    // 从文件的 pos 读一行数据出来
     private CachedObject getFromFile(long pos, PersistentStore store,
                                      boolean keep) {
 

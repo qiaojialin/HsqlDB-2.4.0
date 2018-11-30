@@ -1,5 +1,10 @@
-/*C2*/SET SCHEMA PUBLIC
-INSERT INTO PERSON VALUES('00000002','student2',22,TRUE,1995,'1995-01-01')
+/*C3*/SET SCHEMA PUBLIC
+create cached table person2(id char(8),name varchar(8),age int, undergraduate boolean,birthyear numeric(4,0),birthdate date, primary key(id))
+create cached table person3(id char(8),name varchar(8),age int, undergraduate boolean,birthyear numeric(4,0),birthdate date, primary key(id))
+INSERT INTO PERSON2 VALUES('00000001','student1',22,TRUE,1995,'1995-01-01')
 COMMIT
-create table personmem(id char(8),name varchar(8),age int, undergraduate boolean,birthyear numeric(4,0),birthdate date, primary key(id))
+INSERT INTO PERSON3 VALUES('00000001','student1',22,TRUE,1995,'1995-01-01')
+COMMIT
+create cached table person4(id char(8),name varchar(8),age int, undergraduate boolean,birthyear numeric(4,0),birthdate date, primary key(id))
+create cached table person5(id char(8),name varchar(8),age int, undergraduate boolean,birthyear numeric(4,0),birthdate date, primary key(id))
 DISCONNECT

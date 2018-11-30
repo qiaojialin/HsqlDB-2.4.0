@@ -144,6 +144,7 @@ public class RowStoreAVLDisk extends RowStoreAVL implements PersistentStore {
         storageSize += size;
     }
 
+    // 反序列化一行数据及索引
     public CachedObject get(RowInputInterface in) {
 
         try {

@@ -47,7 +47,7 @@ public class Row implements CachedObject {
 
     long                      position;
     Object[]                  rowData;
-    public volatile RowAction rowAction;
+    public volatile RowAction rowAction;  //记录对这行数据的操作，链表
     protected TableBase       table;
 
     public RowAction getAction() {

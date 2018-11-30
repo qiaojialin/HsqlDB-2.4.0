@@ -93,6 +93,8 @@ import org.hsqldb.rowio.RowOutputInterface;
  *
  *  New class derived from Hypersonic SQL code and enhanced in HSQLDB. <p>
  *
+ *  CachedTable 的一行数据，包含 AVL 节点信息的 Row
+ *
  * @author Fred Toussi (fredt@users dot sourceforge dot net)
  * @author Thomas Mueller (Hypersonic SQL Group)
  * @version 2.3.5
@@ -138,7 +140,8 @@ public class RowAVLDisk extends RowAVL { //Row
     /**
      *  Constructor when read from the disk into the Cache.
      *
-     * @param t table
+     *  从磁盘上读这行的各个列的字段，构造一个 CachedTable 的一行数据
+     *
      * @param in data source
      * @throws IOException
      */
@@ -152,15 +155,18 @@ public class RowAVLDisk extends RowAVL { //Row
 
         int indexcount = store.getAccessorKeys().length;
 
+        // 反序列化这行数据的主索引的 AVL 节点
         nPrimaryNode = new NodeAVLDisk(this, in, 0);
 
         NodeAVL n = nPrimaryNode;
 
+        // 将这行数据的其他索引的 AVL 节点连起来
         for (int i = 1; i < indexcount; i++) {
             n.nNext = new NodeAVLDisk(this, in, i);
             n       = n.nNext;
         }
 
+        // 读取这行的所有列的 data
         rowData = in.readData(table.getColumnTypes());
     }
 

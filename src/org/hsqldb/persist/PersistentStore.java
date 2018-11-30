@@ -42,6 +42,8 @@ import org.hsqldb.rowio.RowInputInterface;
 /**
  * Interface for a store for CachedObject objects.
  *
+ * 读取一行数据的接口
+ *
  * @author Fred Toussi (fredt@users dot sourceforge.net)
  * @version 2.3.3
  * @since 1.9.0

@@ -1314,6 +1314,7 @@ public class Session implements SessionInterface {
 
         boolean isTX = cs.isTransactionStatement();
 
+        // 非事务性语句
         if (!isTX) {
             actionTimestamp =
                 database.txManager.getNextGlobalChangeTimestamp();
@@ -1334,6 +1335,7 @@ public class Session implements SessionInterface {
             return r;
         }
 
+        // 事务性语句
         repeatLoop:
         while (true) {
             actionIndex = rowActionList.size();
@@ -1360,6 +1362,8 @@ public class Session implements SessionInterface {
 
             while (true) {
                 try {
+
+                    // 等待自己依赖的 session 执行完
                     latch.await();
                 } catch (InterruptedException e) {
                     Thread.interrupted();

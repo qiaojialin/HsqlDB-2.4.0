@@ -318,17 +318,28 @@ class TransactionManagerCommon {
         return globalChangeTimestamp.incrementAndGet();
     }
 
+
+    /**
+     *
+     * @param session 当前 session
+     * @param newWaits 当前语句正在等待的 session
+     * @return 没有死锁返回 true
+     */
     boolean checkDeadlock(Session session, OrderedHashSet newWaits) {
 
         int size = session.waitingSessions.size();
 
         for (int i = 0; i < size; i++) {
+
+            // 等待当前 session 的 session
             Session current = (Session) session.waitingSessions.get(i);
 
+            // current 在等我，判断我是否也在等 current
             if (newWaits.contains(current)) {
                 return false;
             }
 
+            // current' 在等 current， 判断我是否在等 current'
             if (!checkDeadlock(current, newWaits)) {
                 return false;
             }
@@ -609,6 +620,7 @@ class TransactionManagerCommon {
         session.tempSet.clear();
     }
 
+    // 找到当前语句需要等待的 session
     boolean setWaitedSessionsTPL(Session session, Statement cs) {
 
         session.tempSet.clear();
@@ -625,6 +637,7 @@ class TransactionManagerCommon {
             getTransactionSessions(session);
         }
 
+        // 当前语句要写的 table 的列表
         HsqlName[] nameList = cs.getTableNamesForWrite();
 
         for (int i = 0; i < nameList.length; i++) {
@@ -634,12 +647,15 @@ class TransactionManagerCommon {
                 continue;
             }
 
+            // 占用要写的 table 的 session
             Session holder = (Session) tableWriteLocks.get(name);
 
+            // 加到当前语句要等待的正在写的 session
             if (holder != null && holder != session) {
                 session.tempSet.add(holder);
             }
 
+            // 加到当前语句要等待的正在读的 session
             Iterator it = tableReadLocks.get(name);
 
             while (it.hasNext()) {
@@ -688,6 +704,12 @@ class TransactionManagerCommon {
         return false;
     }
 
+
+    /**
+     * 自己等待的 session 为 A
+     * 等待 A 的 session 列表为 B
+     * 把自己加到 B 中
+     */
     void setWaitingSessionTPL(Session session) {
 
         int count = session.tempSet.size();
@@ -704,6 +726,7 @@ class TransactionManagerCommon {
         session.latch.setCount(count);
     }
 
+    // 锁住当前语句要读写的 table
     void lockTablesTPL(Session session, Statement cs) {
 
         if (cs == null || session.abortTransaction) {

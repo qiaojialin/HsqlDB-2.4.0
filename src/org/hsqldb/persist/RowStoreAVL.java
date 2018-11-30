@@ -202,7 +202,7 @@ public abstract class RowStoreAVL implements PersistentStore {
     }
 
     /**
-     * Basic delete with no logging or referential checks.
+     * Basic delete with no logging or referential checks. 从索引中删除
      */
     public void delete(Session session, Row row) {
 
